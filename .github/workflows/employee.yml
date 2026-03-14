@@ -1,0 +1,24 @@
+name: Terrarium Employee
+on:
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        required: true
+      complexity:
+        required: true
+        default: medium
+concurrency:
+  group: terrarium-employee-issue-${{ inputs.issue_number }}
+  cancel-in-progress: false
+jobs:
+  employee:
+    uses: jbrower95/terrarium/.github/workflows/employee.yml@master
+    with:
+      issue_number: ${{ inputs.issue_number }}
+      complexity: ${{ inputs.complexity }}
+    permissions:
+      id-token: write
+      contents: write
+      issues: write
+      pull-requests: write
+    secrets: inherit
